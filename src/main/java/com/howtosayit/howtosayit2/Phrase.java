@@ -1,7 +1,7 @@
 package com.howtosayit.howtosayit2;
 
 
-public class Entity {
+public class Phrase {
     private int id;
     private String rus;
     private String eng;
@@ -10,7 +10,7 @@ public class Entity {
     private int start;
     private int stop;
 
-    public Entity(int id, String rus, String eng, int number, String lesson, int start, int stop) {
+    public Phrase(int id, String rus, String eng, int number, String lesson, int start, int stop) {
         this.id = id;
         this.rus = rus;
         this.eng = eng;

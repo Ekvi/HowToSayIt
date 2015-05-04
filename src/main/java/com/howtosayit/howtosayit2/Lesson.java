@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lesson {
-    private List<Entity> entityList = new ArrayList<>();
+    private List<Phrase> phrases = new ArrayList<>();
 
-    public List<Entity> getEntityList() {
-        return entityList;
+    public List<Phrase> getPhrases() {
+        return phrases;
     }
 
-    public void setEntityList(List<Entity> entityList) {
-        this.entityList = entityList;
+    public void setPhrases(List<Phrase> entityList) {
+        this.phrases = entityList;
     }
 }

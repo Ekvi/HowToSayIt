@@ -55,10 +55,10 @@ public class MainActivity extends Activity {
         btnNext = (Button)findViewById(R.id.btnNext);
         btnPrev = (Button)findViewById(R.id.btnPrevious);
         btnSound = (Button)findViewById(R.id.btnSound);
+        btnStart = (Button)findViewById(R.id.btnStart);
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
         englishContent = (TextView)findViewById(R.id.tvEnglishContent);
         number = (TextView)findViewById(R.id.tvNumber);
-        btnStart = (Button)findViewById(R.id.btnStart);
 
         setUpListLessons();
 
@@ -78,16 +78,16 @@ public class MainActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
 
-                lesson.setEntityList(getLessonFromDB("lesson = ?", item.toString()));
+                lesson.setPhrases(getLessonFromDB("lesson = ?", item.toString()));
 
-                if(!lesson.getEntityList().isEmpty()) {
-                    Entity entity = lesson.getEntityList().get(0);
+                if(!lesson.getPhrases().isEmpty()) {
+                    Phrase phrase = lesson.getPhrases().get(0);
 
-                    setTexView(russianContent, entity.getRus());
-                    setTexView(englishContent, entity.getEng());
-                    setTexView(number, entity.getNumber() + "/" + lesson.getEntityList().size());
+                    setTexView(russianContent, phrase.getRus());
+                    setTexView(englishContent, phrase.getEng());
+                    setTexView(number, phrase.getNumber() + "/" + lesson.getPhrases().size());
 
-                    play(entity.getStart(), entity.getStop(), entity.getLesson());
+                    play(phrase.getStart(), phrase.getStop(), phrase.getLesson());
                 }
             }
 
@@ -97,11 +97,11 @@ public class MainActivity extends Activity {
         });
     }
 
-    private List<Entity> getLessonFromDB(String selection, String value) {
+    private List<Phrase> getLessonFromDB(String selection, String value) {
         String[] selectionArgs = new String[] { value};
 
         Cursor c = db.query("lessons", null, selection, selectionArgs, null, null, null);
-        List<Entity> values = new ArrayList<>();
+        List<Phrase> phrases = new ArrayList<>();
 
         if(c.moveToFirst()) {
             int idColIndex = c.getColumnIndex("id");
@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
             int stopIndex = c.getColumnIndex("stop");
 
             do {
-                values.add(new Entity(c.getInt(idColIndex), c.getString(rusColIndex),
+                phrases.add(new Phrase(c.getInt(idColIndex), c.getString(rusColIndex),
                         c.getString(engColIndex), c.getInt(numberColIndex),
                         c.getString(lessonIndex), c.getInt(startIndex), c.getInt(stopIndex)));
             } while(c.moveToNext());
@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
         }
         c.close();
 
-        return values;
+        return phrases;
     }
 
     private void addButtonListeners() {
@@ -145,7 +145,7 @@ public class MainActivity extends Activity {
                 CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
 
-                if(index != -1 && index < lesson.getEntityList().size() - 1) {
+                if(index != -1 && index < lesson.getPhrases().size() - 1) {
                     index++;
                     nextPrevClickReaction(index);
                 }
@@ -157,18 +157,18 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
-                play(lesson.getEntityList().get(index).getStart(),
-                            lesson.getEntityList().get(index).getStop(),
-                                    lesson.getEntityList().get(index).getLesson());
+                play(lesson.getPhrases().get(index).getStart(),
+                            lesson.getPhrases().get(index).getStop(),
+                                    lesson.getPhrases().get(index).getLesson());
             }
         });
     }
 
     private int getIndex(String text) {
         int index = -1;
-        for(int i = 0; i < lesson.getEntityList().size(); i++) {
-            if(lesson.getEntityList().get(i).getRus().equals(text)) {
-                index = lesson.getEntityList().get(i).getNumber() - 1;
+        for(int i = 0; i < lesson.getPhrases().size(); i++) {
+            if(lesson.getPhrases().get(i).getRus().equals(text)) {
+                index = lesson.getPhrases().get(i).getNumber() - 1;
                 break;
             }
         }
@@ -176,11 +176,11 @@ public class MainActivity extends Activity {
     }
 
     private void nextPrevClickReaction(int index) {
-        Entity entity = lesson.getEntityList().get(index);
+        Phrase entity = lesson.getPhrases().get(index);
 
         setTexView(russianContent, entity.getRus());
         setTexView(englishContent, entity.getEng());
-        setTexView(number, entity.getNumber() + "/" + lesson.getEntityList().size());
+        setTexView(number, entity.getNumber() + "/" + lesson.getPhrases().size());
 
         play(entity.getStart(), entity.getStop(), entity.getLesson());
     }
@@ -216,15 +216,5 @@ public class MainActivity extends Activity {
         Handler handler = new Handler();
 
         handler.postDelayed(stopPlayerTask, delta);
-
-        /*mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                Log.d(LOG_TAG, "release");
-                mp.release();
-            }
-        });*/
-
     }
-
 }
