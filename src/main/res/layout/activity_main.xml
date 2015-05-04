@@ -25,27 +25,43 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
-        android:id="@+id/tvContent"
-        android:paddingTop="10dp"
-        android:layout_width="fill_parent"
+        android:id="@+id/tvRussianContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:paddingTop="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textSize="22sp"
         android:text=""
         android:background="@drawable/back"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
-    <EditText
+    <TextView
+        android:id="@+id/tvEnglishContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textSize="22sp"
+        android:text=""
+        android:background="@drawable/back"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+    </TextView>
+   <!-- <EditText
         android:id="@+id/etEnglish"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
-    </EditText>
+    </EditText>-->
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp" >
         <Button

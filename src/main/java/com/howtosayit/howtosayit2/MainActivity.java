@@ -29,7 +29,8 @@ public class MainActivity extends Activity {
     private Button btnPrev;
     private Button btnSound;
     private Button btnStart;
-    private TextView content;
+    private TextView russianContent;
+    private TextView englishContent;
     private TextView number;
     private MediaPlayer mp;
 
@@ -54,7 +55,8 @@ public class MainActivity extends Activity {
         btnNext = (Button)findViewById(R.id.btnNext);
         btnPrev = (Button)findViewById(R.id.btnPrevious);
         btnSound = (Button)findViewById(R.id.btnSound);
-        content = (TextView)findViewById(R.id.tvContent);
+        russianContent = (TextView)findViewById(R.id.tvRussianContent);
+        englishContent = (TextView)findViewById(R.id.tvEnglishContent);
         number = (TextView)findViewById(R.id.tvNumber);
         btnStart = (Button)findViewById(R.id.btnStart);
 
@@ -81,12 +83,11 @@ public class MainActivity extends Activity {
                 if(!lesson.getEntityList().isEmpty()) {
                     Entity entity = lesson.getEntityList().get(0);
 
-                    setTexView(content, entity.getRus());
+                    setTexView(russianContent, entity.getRus());
+                    setTexView(englishContent, entity.getEng());
                     setTexView(number, entity.getNumber() + "/" + lesson.getEntityList().size());
 
                     play(entity.getStart(), entity.getStop(), entity.getLesson());
-                } else {
-                    setTexView(content, "");
                 }
             }
 
@@ -128,17 +129,12 @@ public class MainActivity extends Activity {
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = content.getText();
+                CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
 
                 if(index > 0) {
                     index--;
-
-                    Entity entity = lesson.getEntityList().get(index);
-                    setTexView(content, entity.getRus());
-                    setTexView(number, entity.getNumber() + "/" + lesson.getEntityList().size());
-
-                    play(entity.getStart(), entity.getStop(), entity.getLesson());
+                    nextPrevClickReaction(index);
                 }
             }
         });
@@ -146,17 +142,12 @@ public class MainActivity extends Activity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = content.getText();
+                CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
 
                 if(index != -1 && index < lesson.getEntityList().size() - 1) {
                     index++;
-
-                    Entity entity = lesson.getEntityList().get(index);
-                    setTexView(content, entity.getRus());
-                    setTexView(number, entity.getNumber() + "/" + lesson.getEntityList().size());
-
-                    play(entity.getStart(), entity.getStop(), entity.getLesson());
+                    nextPrevClickReaction(index);
                 }
             }
         });
@@ -164,7 +155,7 @@ public class MainActivity extends Activity {
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = content.getText();
+                CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
                 play(lesson.getEntityList().get(index).getStart(),
                             lesson.getEntityList().get(index).getStop(),
@@ -182,6 +173,16 @@ public class MainActivity extends Activity {
             }
         }
         return index;
+    }
+
+    private void nextPrevClickReaction(int index) {
+        Entity entity = lesson.getEntityList().get(index);
+
+        setTexView(russianContent, entity.getRus());
+        setTexView(englishContent, entity.getEng());
+        setTexView(number, entity.getNumber() + "/" + lesson.getEntityList().size());
+
+        play(entity.getStart(), entity.getStop(), entity.getLesson());
     }
 
     private void setTexView(TextView tv, String value) {
