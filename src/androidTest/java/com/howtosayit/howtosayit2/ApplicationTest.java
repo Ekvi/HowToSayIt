@@ -2,6 +2,8 @@ package com.howtosayit.howtosayit2;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>

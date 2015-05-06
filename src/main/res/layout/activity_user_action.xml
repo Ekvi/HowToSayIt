@@ -38,21 +38,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
-    <TextView
-        android:id="@+id/tvEnglishContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textSize="22sp"
-        android:text=""
-        android:background="@drawable/back"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
-    </TextView>
-    <!--<EditText
+    <EditText
         android:id="@+id/etEnglish"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -63,7 +49,7 @@
         android:textSize="22sp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
-    </EditText>-->
+    </EditText>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionPanel"
@@ -73,44 +59,30 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp" >
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sound"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10sp"
-            android:id="@+id/btnSound" />
-        <TextView
-            android:id="@+id/tvNumber"
-            android:layout_width="60sp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/back"
-            android:layout_centerHorizontal="true"
-            android:layout_alignBaseline="@id/btnSound"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-        </TextView>
-        <Button
-            android:id="@+id/btnPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="pr"
-            android:layout_toLeftOf="@id/tvNumber"/>
-        <Button
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="next"
-            android:layout_toRightOf="@id/tvNumber" />
+            android:text="enter"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/tvNumber"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBaseline="@id/btnNext"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="left 20"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+        </TextView>
+
         <Button
-            android:id="@+id/btnStart"
+            android:id="@+id/btnHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Старт"
+            android:text="help"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10sp"/>
-        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
-
-

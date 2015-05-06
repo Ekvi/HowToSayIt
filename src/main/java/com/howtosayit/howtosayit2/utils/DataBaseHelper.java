@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2;
+package com.howtosayit.howtosayit2.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

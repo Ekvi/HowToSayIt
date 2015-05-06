@@ -37,4 +37,5 @@
         <item>lesson29</item>
         <item>lesson30</item>
     </string-array>
+    <string name="title_activity_user_action">UserActionActivity</string>
 </resources>
