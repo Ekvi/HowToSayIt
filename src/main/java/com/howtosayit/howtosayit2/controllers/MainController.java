@@ -4,6 +4,8 @@ package com.howtosayit.howtosayit2.controllers;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.howtosayit.howtosayit2.models.Lesson;
@@ -19,8 +21,8 @@ public class MainController {
     private SQLiteDatabase db;
     private Lesson lesson;
 
-    public MainController(Context mainActivity) {
-        dbHelper = new DataBaseHelper(mainActivity);
+    public MainController(Context activity) {
+        dbHelper = new DataBaseHelper(activity);
         db = dbHelper.getWritableDatabase();
         lesson = new Lesson();
     }

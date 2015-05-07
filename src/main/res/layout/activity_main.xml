@@ -52,18 +52,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
-    <!--<EditText
-        android:id="@+id/etEnglish"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textSize="22sp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
-    </EditText>-->
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionPanel"

@@ -1,7 +1,10 @@
 package com.howtosayit.howtosayit2.models;
 
 
-public class Phrase {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Phrase implements Parcelable {
     private int id;
     private String rus;
     private String eng;
@@ -75,4 +78,30 @@ public class Phrase {
     public void setStop(int stop) {
         this.stop = stop;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(rus);
+        parcel.writeString(eng);
+        parcel.writeInt(number);
+        parcel.writeString(lesson);
+        parcel.writeInt(start);
+        parcel.writeInt(stop);
+    }
+
+    public static final Parcelable.Creator<Phrase> CREATOR = new Parcelable.Creator<Phrase>() {
+        public Phrase createFromParcel(Parcel parcel) {
+            return new Phrase(parcel.readInt(), parcel.readString(), parcel.readString(), parcel.readInt(), parcel.readString(), parcel.readInt(), parcel.readInt());
+        }
+
+        public Phrase[] newArray(int size) {
+            return new Phrase[size];
+        }
+    };
 }

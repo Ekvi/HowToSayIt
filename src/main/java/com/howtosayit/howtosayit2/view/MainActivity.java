@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
+import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
+import com.howtosayit.howtosayit2.utils.PlayAudio;
 
 
 public class MainActivity extends Activity {
@@ -28,22 +31,15 @@ public class MainActivity extends Activity {
     private TextView russianContent;
     private TextView englishContent;
     private TextView number;
-    private MediaPlayer mp;
+    private PlayAudio audio;
     private MainController controller;
-
-    private Runnable stopPlayerTask = new Runnable() {
-        @Override
-        public void run() {
-            mp.pause();
-            mp.release();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        audio = new PlayAudio();
         controller = new MainController(this);
 
         initViews();
@@ -119,7 +115,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
-                play(controller.getLessonPhrases().get(index).getStart(),
+                makeSound(controller.getLessonPhrases().get(index).getStart(),
                             controller.getLessonPhrases().get(index).getStop(),
                                 controller.getLessonPhrases().get(index).getLesson());
             }
@@ -134,54 +130,13 @@ public class MainActivity extends Activity {
     }
 
     private void callUserActionActivity() {
+        Lesson lesson = new Lesson();
+        lesson.setPhrases(controller.getLessonPhrases());
+
         Intent intent = new Intent(this, UserActionActivity.class);
+        intent.putExtra("lesson", lesson);
         startActivity(intent);
     }
-
-    /*private void compareEditedText(final int index) {
-        final Phrase phrase = lesson.getPhrases().get(index);
-
-        setTexView(russianContent, phrase.getRus());
-        setTexView(number, phrase.getNumber() + "/" + lesson.getPhrases().size());
-
-        etEnglishContent.setEnabled(true);
-        etEnglishContent.setText("");
-        //btnNext.setEnabled(false);
-
-        etEnglishContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d(LOG_TAG, "edit " + etEnglishContent.getText().toString());
-                String typed = etEnglishContent.getText().toString();
-                String english = phrase.getEng();
-
-                int length = typed.length();
-                if(!typed.equalsIgnoreCase(english.substring(0, length))) {
-                    etEnglishContent.setTextColor(Color.parseColor("#FF0000"));
-                } else {
-                    etEnglishContent.setTextColor(Color.parseColor("#000000"));
-                }
-                *//*Log.d(LOG_TAG, "substring " + english.substring(0, length));
-                Log.d(LOG_TAG, "typed length " + typed.length());
-                Log.d(LOG_TAG, "is equals " + typed.equalsIgnoreCase(english.substring(0, length)));*//*
-
-                if(english.equalsIgnoreCase(typed)) {
-                    //Log.d(LOG_TAG, "typed = " + typed + "  english = " + english);
-                    etEnglishContent.setTextColor(Color.parseColor("#0000FF"));
-                    play(phrase.getStart(), phrase.getStop(), phrase.getLesson());
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-    }*/
-
 
     private int getIndex(String text) {
         int index = -1;
@@ -201,23 +156,14 @@ public class MainActivity extends Activity {
         setTextView(englishContent, phrase.getEng());
         setTextView(number, phrase.getNumber() + "/" + controller.getLessonPhrases().size());
 
-        play(phrase.getStart(), phrase.getStop(), phrase.getLesson());
+        makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
     }
 
     private void setTextView(TextView tv, String value) {
         tv.setText(value);
     }
 
-    private void play(int start, int stop, String fileName) {
-        int id = getResources().getIdentifier(fileName, "raw", getPackageName());
-
-        mp = MediaPlayer.create(this, id);
-        mp.seekTo(start);
-        mp.start();
-
-        int delta = stop - start;
-        Handler handler = new Handler();
-
-        handler.postDelayed(stopPlayerTask, delta);
+    private void makeSound(int start, int stop, String lesson) {
+        audio.play(this, start, stop, lesson);
     }
 }
