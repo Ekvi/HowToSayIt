@@ -23,6 +23,7 @@ import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
 import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
+import com.howtosayit.howtosayit2.utils.CheckAnswer;
 import com.howtosayit.howtosayit2.utils.PlayAudio;
 
 import java.util.Date;
@@ -40,8 +41,7 @@ public class UserActionActivity extends Activity {
     private PlayAudio audio;
     private Phrase phrase;
     private AnswerTextWatcher watcher;
-    private String[] skip = {"!", "(", ")", "-", ",", ".", "?"};
-    private String regExp = "\\.|,|!|\\?|(|)|-";
+    private CheckAnswer checkAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +49,17 @@ public class UserActionActivity extends Activity {
         setContentView(R.layout.activity_user_action);
 
         audio = new PlayAudio();
-
+        watcher = new AnswerTextWatcher();
+        checkAnswer = new CheckAnswer();
         initViews();
 
         Intent intent = getIntent();
         lesson = intent.getParcelableExtra("lesson");
 
         addButtonListeners();
-
-        watcher = new AnswerTextWatcher();
         answer.addTextChangedListener(watcher);
 
-        fillData(0);
+        setUpActivity(0);
     }
 
     private void initViews() {
@@ -72,8 +71,9 @@ public class UserActionActivity extends Activity {
         number = (TextView)findViewById(R.id.tvNumber);
     }
 
-    private void fillData(int index) {
+    private void setUpActivity(int index) {
         phrase = lesson.getPhrases().get(index);
+        checkAnswer.setCorrect(phrase.getEng());
 
         setTextView(russianContent, phrase.getRus());
         setTextView(number, "left " + (lesson.getPhrases().size() - (phrase.getNumber() - 1)));
@@ -93,18 +93,10 @@ public class UserActionActivity extends Activity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String expected = phrase.getEng().replaceAll(regExp, "");
+            String color = checkAnswer.isCorrect(answer.getText().toString()) ? "#000000" : "#FF0000";
+            setColor(answer, color);
 
-            String userAnswer = answer.getText().toString().replaceAll(regExp, "");
-            int length = userAnswer.length();
-
-            if(!userAnswer.equalsIgnoreCase(expected.substring(0, length))) {
-                setColor(answer, "#FF0000");
-            } else {
-                setColor(answer, "#000000");
-            }
-
-            if(expected.equalsIgnoreCase(userAnswer)) {
+            if(checkAnswer.isCorrectAnswer(answer.getText().toString())) {
                 setColor(answer, "#0000FF");
                 makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
                 btnNext.setEnabled(true);
@@ -128,7 +120,7 @@ public class UserActionActivity extends Activity {
 
                 if(index != -1 && index < lesson.getPhrases().size() - 1) {
                     index++;
-                    fillData(index);
+                    setUpActivity(index);
                 }
             }
         });
