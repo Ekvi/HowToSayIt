@@ -3,12 +3,17 @@ package com.howtosayit.howtosayit2.utils;
 
 
 public class CheckAnswer {
-    private String regExp = "\\.|,|!|\\?|(|)|-";
+    private String regExp = "\\.|,|!|\\?|(|)|-|:|;";
     private String correctAnswer;
 
     public boolean isCorrect(String answer) {
         String cleanAnswer = answer.replaceAll(regExp, "");
-        return cleanAnswer.equalsIgnoreCase(correctAnswer.substring(0, cleanAnswer.length()));
+        boolean isCorrect = false;
+
+        if(cleanAnswer.length() <= correctAnswer.length()) {
+            isCorrect = cleanAnswer.equalsIgnoreCase(correctAnswer.substring(0, cleanAnswer.length()));
+        }
+        return isCorrect;
     }
 
     public boolean isCorrectAnswer(String answer) {
