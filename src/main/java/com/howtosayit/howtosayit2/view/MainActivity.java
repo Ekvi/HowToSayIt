@@ -3,10 +3,7 @@ package com.howtosayit.howtosayit2.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +13,7 @@ import android.widget.TextView;
 
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
+import com.howtosayit.howtosayit2.listeners.AudioPlayerListener;
 import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
 import com.howtosayit.howtosayit2.utils.PlayAudio;
@@ -45,6 +43,7 @@ public class MainActivity extends Activity {
         initViews();
         setUpListLessons();
         addButtonListeners();
+        checkAudioListener();
 
     }
 
@@ -115,9 +114,14 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
+
+                switchButtons(false);
+
                 makeSound(controller.getLessonPhrases().get(index).getStart(),
                             controller.getLessonPhrases().get(index).getStop(),
                                 controller.getLessonPhrases().get(index).getLesson());
+
+                checkAudioListener();
             }
         });
 
@@ -125,6 +129,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 callUserActionActivity();
+            }
+        });
+    }
+
+    private void checkAudioListener() {
+        audio.setOnEventListener(new AudioPlayerListener() {
+            @Override
+            public void fireStopAudio() {
+                switchButtons(true);
             }
         });
     }
@@ -156,7 +169,9 @@ public class MainActivity extends Activity {
         setTextView(englishContent, phrase.getEng());
         setTextView(number, phrase.getNumber() + "/" + controller.getLessonPhrases().size());
 
+        switchButtons(false);
         makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
+        checkAudioListener();
     }
 
     private void setTextView(TextView tv, String value) {
@@ -165,5 +180,11 @@ public class MainActivity extends Activity {
 
     private void makeSound(int start, int stop, String lesson) {
         audio.play(this, start, stop, lesson);
+    }
+
+    private void switchButtons(boolean flag) {
+        btnNext.setEnabled(flag);
+        btnPrev.setEnabled(flag);
+        btnSound.setEnabled(flag);
     }
 }

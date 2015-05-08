@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
+import com.howtosayit.howtosayit2.listeners.AudioPlayerListener;
 import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
 import com.howtosayit.howtosayit2.utils.CheckAnswer;
@@ -49,6 +50,7 @@ public class UserActionActivity extends Activity {
         setContentView(R.layout.activity_user_action);
 
         audio = new PlayAudio();
+
         watcher = new AnswerTextWatcher();
         checkAnswer = new CheckAnswer();
         initViews();
