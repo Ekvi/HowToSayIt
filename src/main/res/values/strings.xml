@@ -1,41 +1,6 @@
 <resources>
     <string name="app_name">HowToSayIt2</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <!--<string name="previous_btn">pr</string>-->
-
-    <string-array name="lessons">
-        <item>lesson1</item>
-        <item>lesson2</item>
-        <item>lesson3</item>
-        <item>lesson4</item>
-        <item>lesson5</item>
-        <item>lesson6</item>
-        <item>lesson7</item>
-        <item>lesson8</item>
-        <item>lesson9</item>
-        <item>lesson10</item>
-        <item>lesson11</item>
-        <item>lesson12</item>
-        <item>lesson13</item>
-        <item>lesson14</item>
-        <item>lesson15</item>
-        <item>lesson16</item>
-        <item>lesson17</item>
-        <item>lesson18</item>
-        <item>lesson19</item>
-        <item>lesson20</item>
-        <item>lesson21</item>
-        <item>lesson22</item>
-        <item>lesson23</item>
-        <item>lesson24</item>
-        <item>lesson25</item>
-        <item>lesson26</item>
-        <item>lesson27</item>
-        <item>lesson28</item>
-        <item>lesson29</item>
-        <item>lesson30</item>
-    </string-array>
     <string name="title_activity_user_action">UserActionActivity</string>
 </resources>

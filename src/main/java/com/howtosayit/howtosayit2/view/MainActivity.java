@@ -18,9 +18,14 @@ import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
 import com.howtosayit.howtosayit2.utils.PlayAudio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends Activity {
     private String LOG_TAG = "myLog";
+    private final int LESSONS_SIZE = 429;
+    private final String LESSON = "lesson";
     private Spinner lessons;
     private Button btnNext;
     private Button btnPrev;
@@ -44,7 +49,6 @@ public class MainActivity extends Activity {
         setUpListLessons();
         addButtonListeners();
         checkAudioListener();
-
     }
 
     private void initViews() {
@@ -59,8 +63,8 @@ public class MainActivity extends Activity {
     }
 
     private void setUpListLessons() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.lessons,
-                android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, fillLessonsNames());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         lessons.setAdapter(adapter);
@@ -69,7 +73,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                controller.setLessonPhrases(controller.getLessonFromDB("lesson = ?", item.toString()));
+                controller.setLessonPhrases(controller.getLessonFromDB(LESSON + " = ?", item.toString()));
 
                 if(!controller.getLessonPhrases().isEmpty()) {
                     nextPrevClickReaction(0);
@@ -80,6 +84,14 @@ public class MainActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    private List<String> fillLessonsNames() {
+        List<String> lessonsNames = new ArrayList<>();
+        for(int i = 0; i < LESSONS_SIZE; i++) {
+            lessonsNames.add(LESSON + (i + 1));
+        }
+        return lessonsNames;
     }
 
     private void addButtonListeners() {
@@ -147,7 +159,7 @@ public class MainActivity extends Activity {
         lesson.setPhrases(controller.getLessonPhrases());
 
         Intent intent = new Intent(this, UserActionActivity.class);
-        intent.putExtra("lesson", lesson);
+        intent.putExtra(LESSON, lesson);
         startActivity(intent);
     }
 
