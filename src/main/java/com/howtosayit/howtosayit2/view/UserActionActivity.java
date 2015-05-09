@@ -95,6 +95,10 @@ public class UserActionActivity extends Activity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if(!answer.getText().toString().isEmpty()) {
+                setTextView(russianContent, phrase.getRus());
+            }
+
             String color = checkAnswer.isCorrect(answer.getText().toString()) ? "#000000" : "#FF0000";
             setColor(answer, color);
 
@@ -124,6 +128,13 @@ public class UserActionActivity extends Activity {
                     index++;
                     setUpActivity(index);
                 }
+            }
+        });
+
+        btnHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTextView(russianContent, phrase.getEng());
             }
         });
     }
