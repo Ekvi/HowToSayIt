@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">HowToSayIt2</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">HowToSayIt</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_user_action">UserActionActivity</string>
 </resources>

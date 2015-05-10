@@ -32,7 +32,7 @@ import java.util.Date;
 
 public class UserActionActivity extends Activity {
     private String LOG_TAG = "myLog";
-    private Spinner lessons;
+    private TextView tvLesson;
     private Button btnNext;
     private Button btnHelp;
     private TextView russianContent;
@@ -65,7 +65,7 @@ public class UserActionActivity extends Activity {
     }
 
     private void initViews() {
-        lessons = (Spinner)findViewById(R.id.spinnerLessons);
+        tvLesson = (TextView)findViewById(R.id.tvLesson);
         btnNext = (Button)findViewById(R.id.btnNext);
         btnHelp = (Button)findViewById(R.id.btnHelp);
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
@@ -77,8 +77,9 @@ public class UserActionActivity extends Activity {
         phrase = lesson.getPhrases().get(index);
         checkAnswer.setCorrect(phrase.getEng());
 
+        setTextView(tvLesson, "Урок " + phrase.getLesson().replaceAll("\\D", ""));
         setTextView(russianContent, phrase.getRus());
-        setTextView(number, "left " + (lesson.getPhrases().size() - (phrase.getNumber() - 1)));
+        setTextView(number, "осталось " + (lesson.getPhrases().size() - (phrase.getNumber() - 1)));
 
         answer.setText("");
         btnNext.setEnabled(false);

@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
     private String LOG_TAG = "myLog";
     private final int LESSONS_SIZE = 429;
     private final String LESSON = "lesson";
+    private final String LESSON_RU = "Урок";
     private Spinner lessons;
     private Button btnNext;
     private Button btnPrev;
@@ -73,7 +74,10 @@ public class MainActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                controller.setLessonPhrases(controller.getLessonFromDB(LESSON + " = ?", item.toString()));
+
+                controller.setLessonPhrases(
+                        controller.getLessonFromDB(
+                                LESSON + " = ?", item.toString().replaceAll(LESSON_RU, LESSON)));
 
                 if(!controller.getLessonPhrases().isEmpty()) {
                     nextPrevClickReaction(0);
@@ -89,7 +93,7 @@ public class MainActivity extends Activity {
     private List<String> fillLessonsNames() {
         List<String> lessonsNames = new ArrayList<>();
         for(int i = 0; i < LESSONS_SIZE; i++) {
-            lessonsNames.add(LESSON + (i + 1));
+            lessonsNames.add(LESSON_RU + (i + 1));
         }
         return lessonsNames;
     }

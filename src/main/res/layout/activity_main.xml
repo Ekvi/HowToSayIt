@@ -3,11 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/Wheat"
     android:orientation="vertical">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/Burlywood"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +36,7 @@
         android:paddingRight="5dp"
         android:textSize="22sp"
         android:text=""
-        android:background="@drawable/back"
+        android:background="@drawable/tv_back"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
@@ -48,7 +50,7 @@
         android:paddingRight="5dp"
         android:textSize="22sp"
         android:text=""
-        android:background="@drawable/back"
+        android:background="@drawable/tv_back"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
@@ -56,22 +58,23 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/Burlywood"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp" >
         <Button
+            android:id="@+id/btnSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sound"
+            android:background="@drawable/btn_sound"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10sp"
-            android:id="@+id/btnSound" />
+            android:layout_marginLeft="10sp"/>
         <TextView
             android:id="@+id/tvNumber"
             android:layout_width="60sp"
             android:layout_height="wrap_content"
-            android:background="@drawable/back"
+            android:background="@drawable/tv_back"
             android:layout_centerHorizontal="true"
             android:layout_alignBaseline="@id/btnSound"
             android:textSize="20sp"
@@ -83,20 +86,23 @@
             android:id="@+id/btnPrevious"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="pr"
+            android:background="@drawable/btn_prev"
             android:layout_toLeftOf="@id/tvNumber"/>
         <Button
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="next"
+            android:background="@drawable/btn_next"
             android:layout_toRightOf="@id/tvNumber" />
         <Button
             android:id="@+id/btnStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Старт"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:layout_alignParentRight="true"
+            android:background="@drawable/rounded"
             android:layout_marginRight="10sp"/>
         </RelativeLayout>
 </LinearLayout>

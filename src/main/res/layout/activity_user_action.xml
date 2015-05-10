@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/Wheat"
     android:orientation="vertical">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,19 +11,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/tvLesson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Выберите урок: "
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:textStyle="bold|italic"
             android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
         </TextView>
-        <Spinner
-            android:id="@+id/spinnerLessons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
         android:id="@+id/tvRussianContent"
@@ -33,8 +31,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textSize="22sp"
-        android:text=""
-        android:background="@drawable/back"
+        android:background="@drawable/tv_back"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
@@ -54,7 +51,8 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/Burlywood"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp" >
@@ -62,17 +60,20 @@
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="enter"
+            android:text="Продолжить"
+            android:background="@drawable/rounded"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:layout_centerHorizontal="true" />
         <TextView
             android:id="@+id/tvNumber"
-            android:layout_width="100sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignBaseline="@id/btnNext"
             android:textSize="20sp"
+            android:textColor="@color/SaddleBrown"
             android:gravity="center"
-            android:text="left 20"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
         </TextView>
@@ -80,7 +81,10 @@
             android:id="@+id/btnHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="help"
+            android:text="Подсказка"
+            android:background="@drawable/rounded"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10sp"/>
     </RelativeLayout>
