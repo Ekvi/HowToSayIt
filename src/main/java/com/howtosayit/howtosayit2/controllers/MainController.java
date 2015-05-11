@@ -4,8 +4,6 @@ package com.howtosayit.howtosayit2.controllers;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.howtosayit.howtosayit2.models.Lesson;
@@ -21,17 +19,30 @@ public class MainController {
     private SQLiteDatabase db;
     private Lesson lesson;
 
-    public MainController(Context activity) {
+    public static MainController controller;
+
+
+    private MainController(){}
+
+    private MainController(Context activity) {
         dbHelper = new DataBaseHelper(activity);
         db = dbHelper.getWritableDatabase();
         lesson = new Lesson();
     }
 
-    public List<Phrase> getLessonFromDB(String selection, String value) {
+    public static MainController getController(Context context) {
+        if(controller == null) {
+            controller = new MainController(context);
+        }
+        return controller;
+    }
+
+    public Lesson getLessonFromDB(String selection, String value) {
         String[] selectionArgs = new String[] {value};
 
         Cursor c = db.query("lessons", null, selection, selectionArgs, null, null, null);
         List<Phrase> phrases = new ArrayList<>();
+        String name = "";
 
         if(c.moveToFirst()) {
             int idColIndex = c.getColumnIndex("id");
@@ -41,6 +52,8 @@ public class MainController {
             int lessonIndex = c.getColumnIndex("lesson");
             int startIndex = c.getColumnIndex("start");
             int stopIndex = c.getColumnIndex("stop");
+
+            name = c.getString(lessonIndex);
 
             do {
                 phrases.add(new Phrase(c.getInt(idColIndex), c.getString(rusColIndex),
@@ -52,14 +65,17 @@ public class MainController {
         }
         c.close();
 
-        return phrases;
+        Lesson les = new Lesson(name, phrases);
+        setLesson(les);
+        
+        return les;
     }
 
-    public void setLessonPhrases(List<Phrase> phrases) {
-        lesson.setPhrases(phrases);
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public List<Phrase> getLessonPhrases() {
-        return lesson.getPhrases();
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 }

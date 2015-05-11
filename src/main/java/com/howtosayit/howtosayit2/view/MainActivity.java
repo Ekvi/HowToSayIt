@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
 import com.howtosayit.howtosayit2.listeners.AudioPlayerListener;
-import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
 import com.howtosayit.howtosayit2.utils.PlayAudio;
 
@@ -25,8 +24,8 @@ import java.util.List;
 public class MainActivity extends Activity {
     private String LOG_TAG = "myLog";
     private final int LESSONS_SIZE = 429;
-    private final String LESSON = "lesson";
-    private final String LESSON_RU = "Урок";
+    public static final String LESSON = "lesson";
+    public static final String LESSON_RU = "Урок";
     private Spinner lessons;
     private Button btnNext;
     private Button btnPrev;
@@ -35,6 +34,7 @@ public class MainActivity extends Activity {
     private TextView russianContent;
     private TextView englishContent;
     private TextView number;
+    private TextView lessonNumber;
     private PlayAudio audio;
     private MainController controller;
 
@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         audio = new PlayAudio();
-        controller = new MainController(this);
+        controller = MainController.getController(this);
 
         initViews();
         setUpListLessons();
@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
         englishContent = (TextView)findViewById(R.id.tvEnglishContent);
         number = (TextView)findViewById(R.id.tvNumber);
+        lessonNumber = (TextView)findViewById(R.id.tvLessonNumber);
     }
 
     private void setUpListLessons() {
@@ -75,18 +76,16 @@ public class MainActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
 
-                controller.setLessonPhrases(
-                        controller.getLessonFromDB(
-                                LESSON + " = ?", item.toString().replaceAll(LESSON_RU, LESSON)));
+                controller.getLessonFromDB(
+                        LESSON + " = ?", item.toString().replaceAll(LESSON_RU, LESSON));
 
-                if(!controller.getLessonPhrases().isEmpty()) {
-                    nextPrevClickReaction(0);
+                if(!controller.getLesson().getPhrases().isEmpty()) {
+                    fillActivityContent(0);
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -107,7 +106,7 @@ public class MainActivity extends Activity {
 
                 if(index > 0) {
                     index--;
-                    nextPrevClickReaction(index);
+                    fillActivityContent(index);
                 }
             }
         });
@@ -118,9 +117,9 @@ public class MainActivity extends Activity {
                 CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
 
-                if(index != -1 && index < controller.getLessonPhrases().size() - 1) {
+                if(index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
-                    nextPrevClickReaction(index);
+                    fillActivityContent(index);
                 }
             }
         });
@@ -133,9 +132,9 @@ public class MainActivity extends Activity {
 
                 switchButtons(false);
 
-                makeSound(controller.getLessonPhrases().get(index).getStart(),
-                            controller.getLessonPhrases().get(index).getStop(),
-                                controller.getLessonPhrases().get(index).getLesson());
+                makeSound(controller.getLesson().getPhrases().get(index).getStart(),
+                            controller.getLesson().getPhrases().get(index).getStop(),
+                                controller.getLesson().getPhrases().get(index).getLesson());
 
                 checkAudioListener();
             }
@@ -159,31 +158,29 @@ public class MainActivity extends Activity {
     }
 
     private void callUserActionActivity() {
-        Lesson lesson = new Lesson();
-        lesson.setPhrases(controller.getLessonPhrases());
-
         Intent intent = new Intent(this, UserActionActivity.class);
-        intent.putExtra(LESSON, lesson);
         startActivity(intent);
     }
 
     private int getIndex(String text) {
         int index = -1;
-        for(int i = 0; i < controller.getLessonPhrases().size(); i++) {
-            if(controller.getLessonPhrases().get(i).getRus().equals(text)) {
-                index = controller.getLessonPhrases().get(i).getNumber() - 1;
+
+        for(int i = 0; i < controller.getLesson().getPhrases().size(); i++) {
+            if(controller.getLesson().getPhrases().get(i).getRus().equals(text)) {
+                index = controller.getLesson().getPhrases().get(i).getNumber() - 1;
                 break;
             }
         }
         return index;
     }
 
-    private void nextPrevClickReaction(int index) {
-        Phrase phrase = controller.getLessonPhrases().get(index);
+    private void fillActivityContent(int index) {
+        Phrase phrase = controller.getLesson().getPhrases().get(index);
 
         setTextView(russianContent, phrase.getRus());
         setTextView(englishContent, phrase.getEng());
-        setTextView(number, phrase.getNumber() + "/" + controller.getLessonPhrases().size());
+        setTextView(lessonNumber, phrase.getLesson().replaceAll(LESSON, LESSON_RU + " "));
+        setTextView(number, phrase.getNumber() + "/" + controller.getLesson().getPhrases().size());
 
         switchButtons(false);
         makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
@@ -202,5 +199,18 @@ public class MainActivity extends Activity {
         btnNext.setEnabled(flag);
         btnPrev.setEnabled(flag);
         btnSound.setEnabled(flag);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        controller.getLessonFromDB(LESSON + " = ?", getNextLessonName());
+        fillActivityContent(0);
+    }
+
+    private String getNextLessonName() {
+        int num = Integer.parseInt(controller.getLesson().getName().replaceAll("\\D", ""));
+        num++;
+        return LESSON + num;
     }
 }

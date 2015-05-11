@@ -3,46 +3,39 @@ package com.howtosayit.howtosayit2.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
-import com.howtosayit.howtosayit2.listeners.AudioPlayerListener;
-import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
 import com.howtosayit.howtosayit2.utils.CheckAnswer;
 import com.howtosayit.howtosayit2.utils.PlayAudio;
 
-import java.util.Date;
 
 
 public class UserActionActivity extends Activity {
     private String LOG_TAG = "myLog";
+    private final String COLOR_BLACK = "#000000";
+    private final String COLOR_RED = "#FF0000";
+    private final String COLOR_BLUE = "#0000FF";
     private TextView tvLesson;
     private Button btnNext;
     private Button btnHelp;
+    private Button last;
     private TextView russianContent;
     private EditText answer;
     private TextView number;
-    private Lesson lesson;
     private PlayAudio audio;
     private Phrase phrase;
     private AnswerTextWatcher watcher;
     private CheckAnswer checkAnswer;
+    private MainController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +43,11 @@ public class UserActionActivity extends Activity {
         setContentView(R.layout.activity_user_action);
 
         audio = new PlayAudio();
-
         watcher = new AnswerTextWatcher();
         checkAnswer = new CheckAnswer();
-        initViews();
+        controller = MainController.getController(this);
 
-        Intent intent = getIntent();
-        lesson = intent.getParcelableExtra("lesson");
+        initViews();
 
         addButtonListeners();
         answer.addTextChangedListener(watcher);
@@ -71,15 +62,17 @@ public class UserActionActivity extends Activity {
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
         answer = (EditText)findViewById(R.id.etEnglish);
         number = (TextView)findViewById(R.id.tvNumber);
+        last = (Button)findViewById(R.id.btnLast);
     }
 
     private void setUpActivity(int index) {
-        phrase = lesson.getPhrases().get(index);
+        phrase = controller.getLesson().getPhrases().get(index);
         checkAnswer.setCorrect(phrase.getEng());
 
-        setTextView(tvLesson, "Урок " + phrase.getLesson().replaceAll("\\D", ""));
+        setTextView(tvLesson, MainActivity.LESSON_RU + " " + phrase.getLesson().replaceAll("\\D", ""));
         setTextView(russianContent, phrase.getRus());
-        setTextView(number, "осталось " + (lesson.getPhrases().size() - (phrase.getNumber() - 1)));
+        setTextView(number, "осталось "
+                + (controller.getLesson().getPhrases().size() - (phrase.getNumber() - 1)));
 
         answer.setText("");
         btnNext.setEnabled(false);
@@ -100,11 +93,11 @@ public class UserActionActivity extends Activity {
                 setTextView(russianContent, phrase.getRus());
             }
 
-            String color = checkAnswer.isCorrect(answer.getText().toString()) ? "#000000" : "#FF0000";
+            String color = checkAnswer.isCorrect(answer.getText().toString()) ? COLOR_BLACK : COLOR_RED;
             setColor(answer, color);
 
             if(checkAnswer.isCorrectAnswer(answer.getText().toString())) {
-                setColor(answer, "#0000FF");
+                setColor(answer, COLOR_BLUE);
                 makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
                 btnNext.setEnabled(true);
             }
@@ -125,9 +118,11 @@ public class UserActionActivity extends Activity {
                 CharSequence russianText = russianContent.getText();
                 int index = getIndex(russianText.toString());
 
-                if(index != -1 && index < lesson.getPhrases().size() - 1) {
+                if(index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
                     setUpActivity(index);
+                } else if(index == controller.getLesson().getPhrases().size() - 1){
+                    returnToMainActivity();
                 }
             }
         });
@@ -138,13 +133,21 @@ public class UserActionActivity extends Activity {
                 setTextView(russianContent, phrase.getEng());
             }
         });
+
+        last.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setUpActivity(controller.getLesson().getPhrases().size() - 1);
+            }
+        });
     }
 
     private int getIndex(String text) {
         int index = -1;
-        for(int i = 0; i < lesson.getPhrases().size(); i++) {
-            if(lesson.getPhrases().get(i).getRus().equals(text)) {
-                index = lesson.getPhrases().get(i).getNumber() - 1;
+
+        for(int i = 0; i < controller.getLesson().getPhrases().size(); i++) {
+            if(controller.getLesson().getPhrases().get(i).getRus().equals(text)) {
+                index = controller.getLesson().getPhrases().get(i).getNumber() - 1;
                 break;
             }
         }
@@ -153,5 +156,11 @@ public class UserActionActivity extends Activity {
 
     private void setColor(EditText et, String color) {
         et.setTextColor(Color.parseColor(color));
+    }
+
+    private void returnToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

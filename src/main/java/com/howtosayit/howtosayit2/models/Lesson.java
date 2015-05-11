@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lesson implements Parcelable {
+    private String name;
     private List<Phrase> phrases = new ArrayList<>();
 
     public Lesson(){}
+
+    public Lesson(String name, List<Phrase> phrases) {
+        this.name = name;
+        this.phrases = phrases;
+    }
 
     public List<Phrase> getPhrases() {
         return phrases;
@@ -20,6 +26,14 @@ public class Lesson implements Parcelable {
         this.phrases = entityList;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -27,6 +41,7 @@ public class Lesson implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(name);
         parcel.writeList(phrases);
     }
 
@@ -41,6 +56,7 @@ public class Lesson implements Parcelable {
     };
 
     public Lesson(Parcel parcel) {
+        name = parcel.readString();
         phrases = parcel.readArrayList(Phrase.class.getClassLoader());
     }
 }

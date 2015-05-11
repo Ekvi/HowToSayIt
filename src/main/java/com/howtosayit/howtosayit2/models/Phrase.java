@@ -97,7 +97,9 @@ public class Phrase implements Parcelable {
 
     public static final Parcelable.Creator<Phrase> CREATOR = new Parcelable.Creator<Phrase>() {
         public Phrase createFromParcel(Parcel parcel) {
-            return new Phrase(parcel.readInt(), parcel.readString(), parcel.readString(), parcel.readInt(), parcel.readString(), parcel.readInt(), parcel.readInt());
+            return new Phrase(parcel.readInt(),
+                    parcel.readString(), parcel.readString(), parcel.readInt(),
+                    parcel.readString(), parcel.readInt(), parcel.readInt());
         }
 
         public Phrase[] newArray(int size) {
