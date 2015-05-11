@@ -3,18 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/Wheat"
+    android:background="@color/LemonChiffon1"
     android:orientation="vertical">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Burlywood"
+        android:background="@drawable/top_panel"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Выберите урок: "
+            android:text="@string/tvChooseLesson"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textSize="20sp"
@@ -25,31 +28,19 @@
             android:id="@+id/spinnerLessons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <!--<TextView
-            android:id="@+id/tvLessonNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Урок: "
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:textSize="20sp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-        </TextView>-->
         <TextView
             android:id="@+id/tvLessonNumber"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:textSize="20sp"
+            android:textStyle="bold|italic"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_marginRight="40dp"
-             />
+            android:layout_marginEnd="40dp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tvRussianContent"
@@ -79,22 +70,25 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </TextView>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionPanel"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/Burlywood"
+        android:background="@drawable/bottom_panel"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp" >
+        android:paddingRight="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
         <Button
             android:id="@+id/btnSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_sound"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10sp"/>
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10sp"
+            android:layout_marginStart="10sp" />
         <TextView
             android:id="@+id/tvNumber"
             android:layout_width="60sp"
@@ -112,60 +106,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_prev"
-            android:layout_toLeftOf="@id/tvNumber"/>
+            android:layout_toLeftOf="@id/tvNumber"
+            android:layout_toStartOf="@id/tvNumber"/>
         <Button
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_next"
-            android:layout_toRightOf="@id/tvNumber" />
+            android:layout_toRightOf="@id/tvNumber"
+            android:layout_toEndOf="@id/tvNumber" />
         <Button
             android:id="@+id/btnStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Старт"
+            android:text="@string/btnStart"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/rounded"
-            android:layout_marginRight="10sp"/>
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/btn_back"
+            android:layout_marginRight="10sp"
+            android:layout_marginEnd="10sp"/>
         </RelativeLayout>
 </LinearLayout>
 
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <TextView
-            android:id="@+id/tvGroupName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="160"
-            android:minLines="1"
-            android:text="Group name"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tvGroupDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:editable="false"
-            android:gravity="right"
-            android:password="false"
-            android:phoneNumber="false"
-            android:text="Date"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
-
-</LinearLayout>-->
 

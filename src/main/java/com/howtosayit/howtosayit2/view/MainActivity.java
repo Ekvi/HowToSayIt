@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
@@ -65,9 +66,9 @@ public class MainActivity extends Activity {
     }
 
     private void setUpListLessons() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, fillLessonsNames());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, R.layout.spinner_layout, fillLessonsNames());
+        adapter.setDropDownViewResource(R.layout.spinner_layout);
 
         lessons.setAdapter(adapter);
 
@@ -205,12 +206,21 @@ public class MainActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
         controller.getLessonFromDB(LESSON + " = ?", getNextLessonName());
-        fillActivityContent(0);
+        int position = lessons.getSelectedItemPosition();
+        if(position < LESSONS_SIZE - 1) {
+            lessons.setSelection(++position);
+            fillActivityContent(0);
+        }
     }
 
     private String getNextLessonName() {
         int num = Integer.parseInt(controller.getLesson().getName().replaceAll("\\D", ""));
-        num++;
+
+        if(num < LESSONS_SIZE) {
+            num++;
+        } else {
+            Toast.makeText(this, "Поздравляю, вы прошли весь курс.", Toast.LENGTH_SHORT).show();
+        }
         return LESSON + num;
     }
 }

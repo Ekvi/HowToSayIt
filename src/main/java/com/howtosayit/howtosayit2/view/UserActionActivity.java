@@ -27,7 +27,6 @@ public class UserActionActivity extends Activity {
     private TextView tvLesson;
     private Button btnNext;
     private Button btnHelp;
-    private Button last;
     private TextView russianContent;
     private EditText answer;
     private TextView number;
@@ -62,7 +61,6 @@ public class UserActionActivity extends Activity {
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
         answer = (EditText)findViewById(R.id.etEnglish);
         number = (TextView)findViewById(R.id.tvNumber);
-        last = (Button)findViewById(R.id.btnLast);
     }
 
     private void setUpActivity(int index) {
@@ -131,13 +129,6 @@ public class UserActionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 setTextView(russianContent, phrase.getEng());
-            }
-        });
-
-        last.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setUpActivity(controller.getLesson().getPhrases().size() - 1);
             }
         });
     }

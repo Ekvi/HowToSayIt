@@ -3,12 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/Wheat"
+    android:background="@color/LemonChiffon1"
     android:orientation="vertical">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/top_panel"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tvLesson"
@@ -47,12 +51,13 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
     </EditText>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionPanel"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/Burlywood"
+        android:background="@drawable/bottom_panel"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp" >
@@ -60,8 +65,8 @@
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Продолжить"
-            android:background="@drawable/rounded"
+            android:text="@string/btnContinue"
+            android:background="@drawable/btn_back"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_centerHorizontal="true" />
@@ -70,6 +75,7 @@
             android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignBaseline="@id/btnNext"
             android:textSize="20sp"
             android:textColor="@color/SaddleBrown"
@@ -81,21 +87,13 @@
             android:id="@+id/btnHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Подсказка"
-            android:background="@drawable/rounded"
+            android:text="@string/btnHelp"
+            android:background="@drawable/btn_back"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10sp"/>
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10sp"
+            android:layout_marginEnd="10sp" />
     </RelativeLayout>
-    <Button
-        android:id="@+id/btnLast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="last"
-        android:background="@drawable/rounded"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10sp"/>
 </LinearLayout>
