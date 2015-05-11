@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
-                int index = getIndex(russianText.toString());
+                int index = controller.getIndex(russianText.toString());
 
                 if(index > 0) {
                     index--;
@@ -116,7 +116,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
-                int index = getIndex(russianText.toString());
+                int index = controller.getIndex(russianText.toString());
 
                 if(index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
-                int index = getIndex(russianText.toString());
+                int index = controller.getIndex(russianText.toString());
 
                 switchButtons(false);
 
@@ -161,18 +161,6 @@ public class MainActivity extends Activity {
     private void callUserActionActivity() {
         Intent intent = new Intent(this, UserActionActivity.class);
         startActivity(intent);
-    }
-
-    private int getIndex(String text) {
-        int index = -1;
-
-        for(int i = 0; i < controller.getLesson().getPhrases().size(); i++) {
-            if(controller.getLesson().getPhrases().get(i).getRus().equals(text)) {
-                index = controller.getLesson().getPhrases().get(i).getNumber() - 1;
-                break;
-            }
-        }
-        return index;
     }
 
     private void fillActivityContent(int index) {
@@ -219,7 +207,7 @@ public class MainActivity extends Activity {
         if(num < LESSONS_SIZE) {
             num++;
         } else {
-            Toast.makeText(this, "Поздравляю, вы прошли весь курс.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Поздравляю, вы успешно прошли весь курс.", Toast.LENGTH_SHORT).show();
         }
         return LESSON + num;
     }

@@ -114,7 +114,7 @@ public class UserActionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 CharSequence russianText = russianContent.getText();
-                int index = getIndex(russianText.toString());
+                int index = controller.getIndex(russianText.toString());
 
                 if(index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
@@ -131,18 +131,6 @@ public class UserActionActivity extends Activity {
                 setTextView(russianContent, phrase.getEng());
             }
         });
-    }
-
-    private int getIndex(String text) {
-        int index = -1;
-
-        for(int i = 0; i < controller.getLesson().getPhrases().size(); i++) {
-            if(controller.getLesson().getPhrases().get(i).getRus().equals(text)) {
-                index = controller.getLesson().getPhrases().get(i).getNumber() - 1;
-                break;
-            }
-        }
-        return index;
     }
 
     private void setColor(EditText et, String color) {

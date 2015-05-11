@@ -21,7 +21,6 @@ public class MainController {
 
     public static MainController controller;
 
-
     private MainController(){}
 
     private MainController(Context activity) {
@@ -77,5 +76,17 @@ public class MainController {
 
     public void setLesson(Lesson lesson) {
         this.lesson = lesson;
+    }
+
+    public int getIndex(String text) {
+        int index = -1;
+
+        for(int i = 0; i < lesson.getPhrases().size(); i++) {
+            if(lesson.getPhrases().get(i).getRus().equals(text)) {
+                index = lesson.getPhrases().get(i).getNumber() - 1;
+                break;
+            }
+        }
+        return index;
     }
 }
