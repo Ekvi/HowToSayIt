@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +14,12 @@ import android.widget.TextView;
 
 import com.howtosayit.howtosayit2.R;
 import com.howtosayit.howtosayit2.controllers.MainController;
+import com.howtosayit.howtosayit2.models.Lesson;
 import com.howtosayit.howtosayit2.models.Phrase;
 import com.howtosayit.howtosayit2.utils.CheckAnswer;
 import com.howtosayit.howtosayit2.utils.PlayAudio;
 
+import java.util.List;
 
 
 public class UserActionActivity extends Activity {
@@ -36,6 +39,7 @@ public class UserActionActivity extends Activity {
     private AnswerTextWatcher watcher;
     private CheckAnswer checkAnswer;
     private MainController controller;
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class UserActionActivity extends Activity {
         addButtonListeners();
         answer.addTextChangedListener(watcher);
 
-        setUpActivity(0);
+        setUpActivity();
     }
 
     private void initViews() {
@@ -65,14 +69,14 @@ public class UserActionActivity extends Activity {
         number = (TextView)findViewById(R.id.tvNumber);
     }
 
-    private void setUpActivity(int index) {
+    private void setUpActivity() {
         phrase = controller.getLesson().getPhrases().get(index);
         checkAnswer.setCorrect(phrase.getEng());
 
         setTextView(tvLesson, MainActivity.LESSON_RU + " " + phrase.getLesson().replaceAll("\\D", ""));
         setTextView(russianContent, phrase.getRus());
         setTextView(number, "осталось "
-                + (controller.getLesson().getPhrases().size() - (phrase.getNumber() - 1)));
+                + (controller.getLesson().getPhrases().size() - index));
 
         answer.setText("");
         btnNext.setEnabled(false);
@@ -115,12 +119,9 @@ public class UserActionActivity extends Activity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = russianContent.getText();
-                int index = controller.getIndex(russianText.toString());
-
-                if(index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
+                if(index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
-                    setUpActivity(index);
+                    setUpActivity();
                 } else if(index == controller.getLesson().getPhrases().size() - 1){
                     returnToMainActivity();
                 }
@@ -131,13 +132,15 @@ public class UserActionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 setTextView(russianContent, phrase.getEng());
+                addValueForRepeat();
             }
         });
 
         btnLast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUpActivity(controller.getLesson().getPhrases().size() - 1);
+                index = controller.getLesson().getPhrases().size() - 1;
+                setUpActivity();
             }
         });
     }
@@ -149,8 +152,17 @@ public class UserActionActivity extends Activity {
     private void returnToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("index", controller.getIndex(russianContent.getText().toString()));
+        intent.putExtra("index", index);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void addValueForRepeat() {
+        Lesson lesson = controller.getLesson();
+        List<Phrase> phrases = lesson.getPhrases();
+
+        phrases.add(phrase);
+        lesson.setPhrases(phrases);
+        controller.setLesson(lesson);
     }
 }
