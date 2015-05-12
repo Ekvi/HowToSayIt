@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
 
     private void callUserActionActivity() {
         Intent intent = new Intent(this, UserActionActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     private void fillActivityContent(int index) {
@@ -191,13 +191,17 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        controller.getLessonFromDB(LESSON + " = ?", getNextLessonName());
-        int position = lessons.getSelectedItemPosition();
-        if(position < LESSONS_SIZE - 1) {
-            lessons.setSelection(++position);
-            fillActivityContent(0);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {return;}
+        int index = data.getIntExtra("index", 0);
+
+        if(index == controller.getLesson().getPhrases().size() - 1) {
+            controller.getLessonFromDB(LESSON + " = ?", getNextLessonName());
+            int position = lessons.getSelectedItemPosition();
+            if(position < LESSONS_SIZE - 1) {
+                lessons.setSelection(++position);
+                fillActivityContent(0);
+            }
         }
     }
 

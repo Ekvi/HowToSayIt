@@ -27,6 +27,7 @@ public class UserActionActivity extends Activity {
     private TextView tvLesson;
     private Button btnNext;
     private Button btnHelp;
+    private Button btnLast;
     private TextView russianContent;
     private EditText answer;
     private TextView number;
@@ -58,6 +59,7 @@ public class UserActionActivity extends Activity {
         tvLesson = (TextView)findViewById(R.id.tvLesson);
         btnNext = (Button)findViewById(R.id.btnNext);
         btnHelp = (Button)findViewById(R.id.btnHelp);
+        btnLast = (Button)findViewById(R.id.btnLast);
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
         answer = (EditText)findViewById(R.id.etEnglish);
         number = (TextView)findViewById(R.id.tvNumber);
@@ -131,6 +133,13 @@ public class UserActionActivity extends Activity {
                 setTextView(russianContent, phrase.getEng());
             }
         });
+
+        btnLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setUpActivity(controller.getLesson().getPhrases().size() - 1);
+            }
+        });
     }
 
     private void setColor(EditText et, String color) {
@@ -140,6 +149,8 @@ public class UserActionActivity extends Activity {
     private void returnToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+        intent.putExtra("index", controller.getIndex(russianContent.getText().toString()));
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
