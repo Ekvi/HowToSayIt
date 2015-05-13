@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2.models;
+package com.ekvilan.howtosayit.models;
 
 
 import android.os.Parcel;
@@ -45,7 +45,7 @@ public class Lesson implements Parcelable {
         parcel.writeList(phrases);
     }
 
-    public static final Parcelable.Creator<Lesson> CREATOR = new Parcelable.Creator<Lesson>() {
+    public static final Creator<Lesson> CREATOR = new Creator<Lesson>() {
         public Lesson createFromParcel(Parcel parcel) {
             return new Lesson(parcel);
         }

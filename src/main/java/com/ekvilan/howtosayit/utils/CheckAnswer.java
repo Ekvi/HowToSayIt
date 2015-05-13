@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2.utils;
+package com.ekvilan.howtosayit.utils;
 
 
 

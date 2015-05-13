@@ -1,5 +1,4 @@
-package com.howtosayit.howtosayit2.view;
-
+package com.ekvilan.howtosayit.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,11 +12,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.howtosayit.howtosayit2.R;
-import com.howtosayit.howtosayit2.controllers.MainController;
-import com.howtosayit.howtosayit2.listeners.AudioPlayerListener;
-import com.howtosayit.howtosayit2.models.Phrase;
-import com.howtosayit.howtosayit2.utils.PlayAudio;
+import com.ekvilan.howtosayit.R;
+import com.ekvilan.howtosayit.controllers.MainController;
+import com.ekvilan.howtosayit.listeners.AudioPlayerListener;
+import com.ekvilan.howtosayit.models.Phrase;
+import com.ekvilan.howtosayit.utils.PlayAudio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,8 +138,8 @@ public class MainActivity extends Activity {
                 switchButtons(false);
 
                 makeSound(controller.getLesson().getPhrases().get(index).getStart(),
-                            controller.getLesson().getPhrases().get(index).getStop(),
-                                controller.getLesson().getPhrases().get(index).getLesson());
+                        controller.getLesson().getPhrases().get(index).getStop(),
+                        controller.getLesson().getPhrases().get(index).getLesson());
 
                 checkAudioListener();
             }

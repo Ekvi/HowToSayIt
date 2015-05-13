@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2.listeners;
+package com.ekvilan.howtosayit.listeners;
 
 
 public interface AudioPlayerListener {

@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2.models;
+package com.ekvilan.howtosayit.models;
 
 
 import android.os.Parcel;
@@ -95,7 +95,7 @@ public class Phrase implements Parcelable {
         parcel.writeInt(stop);
     }
 
-    public static final Parcelable.Creator<Phrase> CREATOR = new Parcelable.Creator<Phrase>() {
+    public static final Creator<Phrase> CREATOR = new Creator<Phrase>() {
         public Phrase createFromParcel(Parcel parcel) {
             return new Phrase(parcel.readInt(),
                     parcel.readString(), parcel.readString(), parcel.readInt(),

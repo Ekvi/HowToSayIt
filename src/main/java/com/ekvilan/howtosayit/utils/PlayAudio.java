@@ -1,11 +1,11 @@
-package com.howtosayit.howtosayit2.utils;
+package com.ekvilan.howtosayit.utils;
 
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
-import com.howtosayit.howtosayit2.listeners.AudioPlayerListener;
+import com.ekvilan.howtosayit.listeners.AudioPlayerListener;
 
 
 public class PlayAudio {

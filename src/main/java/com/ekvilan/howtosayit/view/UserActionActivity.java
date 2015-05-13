@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2.view;
+package com.ekvilan.howtosayit.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,12 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.howtosayit.howtosayit2.R;
-import com.howtosayit.howtosayit2.controllers.MainController;
-import com.howtosayit.howtosayit2.models.Lesson;
-import com.howtosayit.howtosayit2.models.Phrase;
-import com.howtosayit.howtosayit2.utils.CheckAnswer;
-import com.howtosayit.howtosayit2.utils.PlayAudio;
+import com.ekvilan.howtosayit.R;
+import com.ekvilan.howtosayit.controllers.MainController;
+import com.ekvilan.howtosayit.models.Lesson;
+import com.ekvilan.howtosayit.models.Phrase;
+import com.ekvilan.howtosayit.utils.CheckAnswer;
+import com.ekvilan.howtosayit.utils.PlayAudio;
 
 import java.util.List;
 

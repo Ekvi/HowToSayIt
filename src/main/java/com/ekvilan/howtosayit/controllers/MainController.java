@@ -1,4 +1,4 @@
-package com.howtosayit.howtosayit2.controllers;
+package com.ekvilan.howtosayit.controllers;
 
 
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.howtosayit.howtosayit2.models.Lesson;
-import com.howtosayit.howtosayit2.utils.DataBaseHelper;
-import com.howtosayit.howtosayit2.models.Phrase;
+import com.ekvilan.howtosayit.models.Lesson;
+import com.ekvilan.howtosayit.models.Phrase;
+import com.ekvilan.howtosayit.utils.DataBaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
