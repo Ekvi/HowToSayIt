@@ -3,6 +3,7 @@ package com.howtosayit.howtosayit2.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     private String LOG_TAG = "myLog";
     private final int LESSONS_SIZE = 429;
+    private final String POSITION = "position";
     public static final String LESSON = "lesson";
     public static final String LESSON_RU = "Урок";
     private Spinner lessons;
@@ -38,6 +40,7 @@ public class MainActivity extends Activity {
     private TextView lessonNumber;
     private PlayAudio audio;
     private MainController controller;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,8 @@ public class MainActivity extends Activity {
         controller = MainController.getController(this);
 
         initViews();
-        setUpListLessons();
+
+        setUpListLessons(loadSpinnerPosition());
         addButtonListeners();
         checkAudioListener();
     }
@@ -65,12 +69,13 @@ public class MainActivity extends Activity {
         lessonNumber = (TextView)findViewById(R.id.tvLessonNumber);
     }
 
-    private void setUpListLessons() {
+    private void setUpListLessons(int position) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, R.layout.spinner_layout, fillLessonsNames());
         adapter.setDropDownViewResource(R.layout.spinner_layout);
 
         lessons.setAdapter(adapter);
+        lessons.setSelection(position);
 
         lessons.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -214,5 +219,23 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "Поздравляю, вы успешно прошли весь курс.", Toast.LENGTH_SHORT).show();
         }
         return LESSON + num;
+    }
+
+    @Override
+    protected void onDestroy() {
+        saveAppState();
+        super.onDestroy();
+    }
+
+    private void saveAppState() {
+        preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(POSITION, lessons.getSelectedItemPosition());
+        editor.commit();
+    }
+
+    private int loadSpinnerPosition() {
+        preferences = getPreferences(MODE_PRIVATE);
+        return preferences.getInt(POSITION, 0);
     }
 }
