@@ -1,9 +1,10 @@
 package com.howtosayit.howtosayit2.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.File;
@@ -11,51 +12,60 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private final String LOG_TAG = "myLog";
-    private final String DB_PATH = "/data/data/com.howtosayit.howtosayit2/databases/";
+    private final String KEY_DB_VER = "db_ver";
     private static final String DB_NAME = "how_to_say_it.db";
+    private static final int DATABASE_VERSION = 1;
     private Context context;
     private SQLiteDatabase db;
 
     public DataBaseHelper(Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, DATABASE_VERSION);
         this.context = context;
 
-        if (checkDatabase()) {
-            openDatabase();
+        initDb();
+    }
+
+    private void initDb() {
+        if (dbExist()) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            int dbVersion = prefs.getInt(KEY_DB_VER, 1);
+            if(dbVersion != DATABASE_VERSION) {
+                File dbFile = context.getDatabasePath(DB_NAME);
+                if (!dbFile.delete()) {
+                    Log.w(LOG_TAG, "Unable to update database");
+                }
+                createDatabase();
+            } else {
+                openDatabase();
+            }
         } else {
             createDatabase();
         }
     }
 
-    private boolean checkDatabase() {
-        boolean exist = false;
-        try {
-            File dbFile = new File(DB_PATH + DB_NAME);
-            exist = dbFile.exists();
-        } catch(SQLiteException e) {
-            Log.d(LOG_TAG, "Database doesn't exist!");
-        }
-        return exist;
+    private boolean dbExist() {
+        return context.getDatabasePath(DB_NAME).exists();
     }
 
     private void openDatabase() throws android.database.SQLException {
-        String path = DB_PATH + DB_NAME;
+        String path =  context.getDatabasePath(DB_NAME).toString();
         db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     private void createDatabase() {
         db = this.getReadableDatabase();
         copyDatabase();
+        saveDbVersion();
     }
 
     private void copyDatabase() {
         Log.i("Database", "New DB is copying to device!");
 
+        String path = context.getDatabasePath(DB_NAME).getPath();
         byte[] buffer = new byte[1024];
         OutputStream output;
         InputStream input;
@@ -63,14 +73,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         try {
             input = context.getAssets().open(DB_NAME);
-            output = new FileOutputStream(DB_PATH + DB_NAME);
+            output = new FileOutputStream(path);
 
             while((length = input.read(buffer)) > 0) {
                 output.write(buffer, 0, length);
             }
 
-            output.close();
             output.flush();
+            output.close();
             input.close();
 
             Log.i("Database", "New DB was copied to device");
@@ -85,6 +95,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.close();
         }
         super.close();
+    }
+
+    private void saveDbVersion() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(KEY_DB_VER, DATABASE_VERSION);
+        editor.commit();
     }
 
     @Override
