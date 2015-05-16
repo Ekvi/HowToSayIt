@@ -26,6 +26,7 @@ public class UserActionActivity extends Activity {
     private final String COLOR_BLACK = "#000000";
     private final String COLOR_RED = "#FF0000";
     private final String COLOR_BLUE = "#0000FF";
+    private final String INDEX = "index";
     private TextView tvLesson;
     private Button btnNext;
     private Button btnHelp;
@@ -116,10 +117,10 @@ public class UserActionActivity extends Activity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(index < controller.getLesson().getPhrases().size() - 1) {
+                if (index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
                     setUpActivity();
-                } else if(index == controller.getLesson().getPhrases().size() - 1){
+                } else if (index == controller.getLesson().getPhrases().size() - 1) {
                     returnToMainActivity();
                 }
             }
@@ -141,7 +142,7 @@ public class UserActionActivity extends Activity {
     private void returnToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("index", index);
+        intent.putExtra(INDEX, index);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -153,5 +154,19 @@ public class UserActionActivity extends Activity {
         phrases.add(phrase);
         lesson.setPhrases(phrases);
         controller.setLesson(lesson);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(INDEX, index);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        index = savedInstanceState.getInt(INDEX);
+        setUpActivity();
     }
 }

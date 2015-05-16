@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
     private String LOG_TAG = "myLog";
     private final int LESSONS_SIZE = 429;
     private final String POSITION = "position";
+    private final String INDEX = "index";
     public static final String LESSON = "lesson";
     public static final String LESSON_RU = "Урок";
     private Spinner lessons;
@@ -40,6 +41,8 @@ public class MainActivity extends Activity {
     private PlayAudio audio;
     private MainController controller;
     private SharedPreferences preferences;
+    private int index = 0;
+    private int globalPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class MainActivity extends Activity {
 
     private void setUpListLessons(int position) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, R.layout.spinner_layout, fillLessonsNames());
+                this, R.layout.spinner_layout, createLessonsNames());
         adapter.setDropDownViewResource(R.layout.spinner_layout);
 
         lessons.setAdapter(adapter);
@@ -84,17 +87,24 @@ public class MainActivity extends Activity {
                 controller.getLessonFromDB(
                         LESSON + " = ?", item.toString().replaceAll(LESSON_RU, LESSON));
 
-                if(!controller.getLesson().getPhrases().isEmpty()) {
-                    fillActivityContent(0);
+                if (!controller.getLesson().getPhrases().isEmpty()) {
+                    if(position != globalPosition) {
+                        globalPosition = position;
+                        index = 0;
+                        fillActivityContent(index);
+                    } else {
+                        fillActivityContent(index);
+                    }
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
-    private List<String> fillLessonsNames() {
+    private List<String> createLessonsNames() {
         List<String> lessonsNames = new ArrayList<>();
         for(int i = 0; i < LESSONS_SIZE; i++) {
             lessonsNames.add(LESSON_RU + (i + 1));
@@ -106,9 +116,6 @@ public class MainActivity extends Activity {
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = russianContent.getText();
-                int index = controller.getIndex(russianText.toString());
-
                 if(index > 0) {
                     index--;
                     fillActivityContent(index);
@@ -119,10 +126,7 @@ public class MainActivity extends Activity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = russianContent.getText();
-                int index = controller.getIndex(russianText.toString());
-
-                if(index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
+                if (index != -1 && index < controller.getLesson().getPhrases().size() - 1) {
                     index++;
                     fillActivityContent(index);
                 }
@@ -132,9 +136,6 @@ public class MainActivity extends Activity {
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence russianText = russianContent.getText();
-                int index = controller.getIndex(russianText.toString());
-
                 switchButtons(false);
 
                 makeSound(controller.getLesson().getPhrases().get(index).getStart(),
@@ -197,14 +198,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {return;}
-        int index = data.getIntExtra("index", 0);
+        int ind = data.getIntExtra(INDEX, 0);
 
-        if(index == controller.getLesson().getPhrases().size() - 1) {
+        if(ind == controller.getLesson().getPhrases().size() - 1) {
             controller.getLessonFromDB(LESSON + " = ?", getNextLessonName());
             int position = lessons.getSelectedItemPosition();
             if(position < LESSONS_SIZE - 1) {
                 lessons.setSelection(++position);
-                fillActivityContent(0);
+                globalPosition = position;
+                index = 0;
+                fillActivityContent(index);
             }
         }
     }
@@ -236,5 +239,23 @@ public class MainActivity extends Activity {
     private int loadSpinnerPosition() {
         preferences = getPreferences(MODE_PRIVATE);
         return preferences.getInt(POSITION, 0);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(INDEX, index);
+        outState.putInt(POSITION, lessons.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        index = savedInstanceState.getInt(INDEX);
+        globalPosition = savedInstanceState.getInt(POSITION);
+
+        fillActivityContent(index);
     }
 }
