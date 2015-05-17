@@ -28,7 +28,7 @@ public class UserActionActivity extends Activity {
     private final String COLOR_BLUE = "#0000FF";
     private final String INDEX = "index";
     private TextView tvLesson;
-    private Button btnNext;
+    private Button btnAccepted;
     private Button btnHelp;
     private TextView russianContent;
     private EditText answer;
@@ -60,7 +60,7 @@ public class UserActionActivity extends Activity {
 
     private void initViews() {
         tvLesson = (TextView)findViewById(R.id.tvLesson);
-        btnNext = (Button)findViewById(R.id.btnNext);
+        btnAccepted = (Button)findViewById(R.id.btnAccepted);
         btnHelp = (Button)findViewById(R.id.btnHelp);
         russianContent = (TextView)findViewById(R.id.tvRussianContent);
         answer = (EditText)findViewById(R.id.etEnglish);
@@ -77,7 +77,8 @@ public class UserActionActivity extends Activity {
                 + (controller.getLesson().getPhrases().size() - index));
 
         answer.setText("");
-        btnNext.setEnabled(false);
+        btnAccepted.setEnabled(false);
+        btnAccepted.setBackgroundResource(R.drawable.btn_accepted_off);
     }
 
     private void setTextView(TextView tv, String value) {
@@ -101,7 +102,8 @@ public class UserActionActivity extends Activity {
             if(checkAnswer.isCorrectAnswer(answer.getText().toString())) {
                 setColor(answer, COLOR_BLUE);
                 makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
-                btnNext.setEnabled(true);
+                btnAccepted.setEnabled(true);
+                btnAccepted.setBackgroundResource(R.drawable.btn_accepted_on);
             }
         }
 
@@ -114,7 +116,7 @@ public class UserActionActivity extends Activity {
     }
 
     private void addButtonListeners() {
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        btnAccepted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (index < controller.getLesson().getPhrases().size() - 1) {

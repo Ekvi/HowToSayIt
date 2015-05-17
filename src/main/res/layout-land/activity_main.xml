@@ -39,8 +39,8 @@
             android:textStyle="bold|italic"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tvRussianContent"
@@ -74,8 +74,8 @@
         android:layout_height="70dp"
         android:background="@drawable/bottom_panel"
         android:paddingTop="10dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" >
         <Button
@@ -84,10 +84,12 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_sound"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10sp"
+            android:layout_marginStart="10sp" />
         <TextView
             android:id="@+id/tvNumber"
-            android:layout_width="50dp"
+            android:layout_width="60sp"
             android:layout_height="wrap_content"
             android:background="@drawable/tv_back"
             android:layout_centerHorizontal="true"
@@ -99,21 +101,21 @@
         </TextView>
         <Button
             android:id="@+id/btnPrevious"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_back"
             android:text="@string/btnPrev"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:includeFontPadding="false"
             android:layout_toLeftOf="@id/tvNumber"
             android:layout_toStartOf="@id/tvNumber"/>
         <Button
             android:id="@+id/btnNext"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_back"
             android:text="@string/btnNext"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:includeFontPadding="false"
             android:layout_toRightOf="@id/tvNumber"
             android:layout_toEndOf="@id/tvNumber" />
@@ -126,7 +128,9 @@
             android:paddingRight="5dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/btn_back" />
+            android:background="@drawable/btn_back"
+            android:layout_marginRight="10sp"
+            android:layout_marginEnd="10sp"/>
     </RelativeLayout>
 </LinearLayout>
 

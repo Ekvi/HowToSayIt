@@ -6,4 +6,6 @@
     <string name="btnHelp">Подсказка</string>
     <string name="tvChooseLesson">Выберите урок: </string>
     <string name="btnStart">Старт</string>
+    <string name="btnNext">&gt;</string>
+    <string name="btnPrev">&lt;</string>
 </resources>

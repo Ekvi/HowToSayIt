@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="Wheat">#F5DEB3</color>
-    <color name="Burlywood">#DEB887</color>
-    <color name="SaddleBrown">#8B4513</color>
-    <color name="LemonChiffon1">#FFFACD</color>
-    <color name="LemonChiffon2">#EEE9BF</color>
     <color name="LemonChiffon4">#8B8970</color>
+    <color name="LightLightGrey">#F0F1F2</color>
+    <color name="Silver">#C0C0C0</color>
+    <color name="EndBottomGradient">#66727D</color>
+    <color name="StartAppGradient">#EBEBEB</color>
+    <color name="SteelBlue4">#36648B</color>
+    <color name="Black">#000000</color>
+    <color name="EndAppGradient">#C7D3DF</color>
+    <color name="LightYellow">#FFFFE0</color>
     <color name="lavender">#E6E6FA</color>
     <color name="SlateGrey">#708090</color>
 </resources>
