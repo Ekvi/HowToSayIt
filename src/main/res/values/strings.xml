@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">How To Say It English</string>
+    <string name="app_name">How to say it in English</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_user_action">UserActionActivity</string>
     <string name="btnContinue">Продолжить</string>
@@ -8,4 +8,10 @@
     <string name="btnStart">Старт</string>
     <string name="btnNext">&gt;</string>
     <string name="btnPrev">&lt;</string>
+    <string name="downloadMessage">Подождите, идёт загрузка аудио файлов</string>
+    <string name="downloadFinished">Загрузка завершена</string>
+    <string name="downloadFailed">ошибка загрузки</string>
+    <string name="congratulation">Поздравляю, вы успешно прошли весь курс.</string>
+    <string name="left_phrases_message">осталось</string>
+    <string name="banner_ad_unit_id">my id</string>
 </resources>

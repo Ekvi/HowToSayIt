@@ -1,22 +1,28 @@
 package com.ekvilan.howtosayit.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ekvilan.howtosayit.R;
 import com.ekvilan.howtosayit.controllers.MainController;
+import com.ekvilan.howtosayit.listeners.AudioPlayerListener;
 import com.ekvilan.howtosayit.models.Lesson;
 import com.ekvilan.howtosayit.models.Phrase;
 import com.ekvilan.howtosayit.utils.CheckAnswer;
 import com.ekvilan.howtosayit.utils.PlayAudio;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
@@ -27,17 +33,19 @@ public class UserActionActivity extends Activity {
     private final String COLOR_RED = "#FF0000";
     private final String COLOR_BLUE = "#0000FF";
     private final String INDEX = "index";
+
     private TextView tvLesson;
     private Button btnAccepted;
     private Button btnHelp;
     private TextView russianContent;
     private EditText answer;
     private TextView number;
+
     private PlayAudio audio;
     private Phrase phrase;
-    private AnswerTextWatcher watcher;
     private CheckAnswer checkAnswer;
     private MainController controller;
+
     private int index = 0;
 
     @Override
@@ -45,17 +53,19 @@ public class UserActionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_action);
 
-        audio = new PlayAudio();
-        watcher = new AnswerTextWatcher();
+        audio = PlayAudio.getInstance();
         checkAnswer = new CheckAnswer();
         controller = MainController.getController(this);
 
         initViews();
 
         addButtonListeners();
-        answer.addTextChangedListener(watcher);
+
+        answer.addTextChangedListener(new AnswerTextWatcher());
 
         setUpActivity();
+
+        showBanner();
     }
 
     private void initViews() {
@@ -73,10 +83,16 @@ public class UserActionActivity extends Activity {
 
         setTextView(tvLesson, MainActivity.LESSON_RU + " " + phrase.getLesson().replaceAll("\\D", ""));
         setTextView(russianContent, phrase.getRus());
-        setTextView(number, "осталось "
+        setTextView(number, getResources().getString(R.string.left_phrases_message) + " "
                 + (controller.getLesson().getPhrases().size() - index));
 
+        answer.setEnabled(true);
         answer.setText("");
+        answer.requestFocus();
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(answer, InputMethodManager.SHOW_IMPLICIT);
+
         btnAccepted.setEnabled(false);
         btnAccepted.setBackgroundResource(R.drawable.btn_accepted_off);
     }
@@ -101,9 +117,16 @@ public class UserActionActivity extends Activity {
 
             if(checkAnswer.isCorrectAnswer(answer.getText().toString())) {
                 setColor(answer, COLOR_BLUE);
+                answer.setEnabled(false);
                 makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
-                btnAccepted.setEnabled(true);
-                btnAccepted.setBackgroundResource(R.drawable.btn_accepted_on);
+
+                audio.setOnEventListener(new AudioPlayerListener() {
+                    @Override
+                    public void fireStopAudio() {
+                        btnAccepted.setEnabled(true);
+                        btnAccepted.setBackgroundResource(R.drawable.btn_accepted_on);
+                    }
+                });
             }
         }
 
@@ -159,16 +182,22 @@ public class UserActionActivity extends Activity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(INDEX, index);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
         index = savedInstanceState.getInt(INDEX);
         setUpActivity();
+    }
+
+    private void showBanner() {
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 }
