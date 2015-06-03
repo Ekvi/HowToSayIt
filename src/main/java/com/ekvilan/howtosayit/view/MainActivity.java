@@ -198,9 +198,9 @@ public class MainActivity extends Activity implements IDownloaderClient {
             case STATE_FAILED_CANCELED:
             case STATE_FAILED:
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("error");
+                alert.setTitle(getResources().getString(R.string.downloadErrorTitle));
                 alert.setMessage(getResources().getString(R.string.downloadFailed));
-                alert.setNeutralButton("close", null);
+                alert.setNeutralButton(getResources().getString(R.string.downloadClose), null);
                 alert.show();
                 break;
         }

@@ -8,9 +8,11 @@
     <string name="btnStart">Старт</string>
     <string name="btnNext">&gt;</string>
     <string name="btnPrev">&lt;</string>
-    <string name="downloadMessage">Подождите, идёт загрузка аудио файлов</string>
+    <string name="downloadMessage">Пожалуйста подождите, идёт загрузка аудио файлов</string>
     <string name="downloadFinished">Загрузка завершена</string>
-    <string name="downloadFailed">ошибка загрузки</string>
+    <string name="downloadFailed">проверьте подключение к интернету</string>
+    <string name="downloadErrorTitle">ошибка</string>
+    <string name="downloadClose">закрыть</string>
     <string name="congratulation">Поздравляю, вы успешно прошли весь курс.</string>
     <string name="left_phrases_message">осталось</string>
     <string name="banner_ad_unit_id">my id</string>

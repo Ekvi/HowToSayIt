@@ -3,7 +3,7 @@ package com.ekvilan.howtosayit.utils;
 
 
 public class CheckAnswer {
-    private String regExp = "\\.|,|!|\\?|(|)|-|:|;";
+    private String regExp = "\\.|,|!|\\?|\\(|\\)|:|;";
     private String correctAnswer;
 
     public boolean isCorrect(String answer) {

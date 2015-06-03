@@ -119,7 +119,6 @@ public class UserActionActivity extends Activity {
                 setColor(answer, COLOR_BLUE);
                 answer.setEnabled(false);
                 makeSound(phrase.getStart(), phrase.getStop(), phrase.getLesson());
-
                 audio.setOnEventListener(new AudioPlayerListener() {
                     @Override
                     public void fireStopAudio() {
